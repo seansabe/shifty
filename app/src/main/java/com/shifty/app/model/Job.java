@@ -21,50 +21,50 @@ import jakarta.persistence.TemporalType;
 @Entity
 @Table(name = "job")
 public class Job {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	@Column(name = "title")
 	private String title;
-	
+
 	@Column(name = "posting_date")
 	@Temporal(TemporalType.DATE)
-    private LocalDate postingDate;
-	
+	private LocalDate postingDate; //Usage example LocalDate.of(2022, 2, 14)
+
 	@Column(name = "hour_rate")
 	private double hourRate;
-	
+
 	@Column(name = "kind_of_job")
 	private String kindOfJob;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	@Column(name = "job_start_date")
 	@Temporal(TemporalType.DATE)
-	private LocalDate jobStartDate;
-	
+	private LocalDate jobStartDate;  //Usage example LocalDate.of(2022, 2, 14)
+
 	@Column(name = "job_finish_date")
 	@Temporal(TemporalType.DATE)
-	private LocalDate jobFinishDate;
+	private LocalDate jobFinishDate;  //Usage example LocalDate.of(2022, 2, 14)
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false) 
 	@JsonIgnore
 	private User jUser; 
-	
-	@OneToMany(mappedBy = "aJob",
+
+	@OneToMany(mappedBy = "aJob", //in Application class field must be defined private Job aJob;
 			cascade = CascadeType.ALL,
 			fetch = FetchType.LAZY)
 	private Set<Application> applications = new HashSet<>();
-	
+
 	//Contructors and getters, setters
 	public Job() {
-		
+
 	}
-	
+
 	public Job(User jUser, String title, LocalDate postingDate, double hourRate, String kindOfJob,
 			String description, LocalDate jobStartDate, LocalDate jobFinishDate) {
 		this.jUser = jUser;
@@ -159,16 +159,16 @@ public class Job {
 	public void setJobFinishDate(LocalDate jobFinishDate) {
 		this.jobFinishDate = jobFinishDate;
 	}
-	
+
 	public void addApplication(Application application) {
 		this.applications.add(application);
 		application.setJob(this);
 	}
-	
+
 	public Set<Application> getApplications(){
 		return applications;
 	}
-	
+
 	public void setApplications(Set<Application> applications) {
 		this.applications = applications;
 	}
