@@ -15,25 +15,25 @@ public class User {
 		@GeneratedValue(strategy = GenerationType.AUTO)
 		private long userId;
 
-		@Column(name="First Name")
+		@Column(name="first_name")
 		private String firstName;
 
-		@Column(name="Last Name")
+		@Column(name="last_name")
 		private String lastName;
 		
-		@Column(name="Address")
+		@Column(name="address")
 		private String address;
 
-		@Column(name="Phone")
+		@Column(name="phone")
 		private String phone;
 		
-		@Column(name="Email")
+		@Column(name="email")
 		private String email;
 		
-		@Column(name="Role")
+		@Column(name="role")
 		private String role;
 
-		@Column(name="Password")
+		@Column(name="password")
 		private String password;
 
 		public User() {

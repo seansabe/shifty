@@ -19,9 +19,9 @@ public class AppApplication {
 	@Bean
 	ApplicationRunner init(UserRepository userRepo) {
 		return arg ->{
-			userRepo.save(new User("Alexey","Navalny","Prison IK-2, Pokrov city","12345678910","alex.navalny@gmail.com","employer","freeNavalny"));
-			userRepo.save(new User("Boris","Nemtsov","Heaven or Hell","12345678910","boris.nemtsov@gmail.com","employee","RIP"));
-			userRepo.save(new User("Ilya","Yashin","Prison in Siberia","12345678910","ilya.yashin@gmail.com","employee","freeYashin"));
+			userRepo.save(new User("Alexey","Navalny","Prison IK-2, Pokrov city","1365125551","alex.navalny@gmail.com","employer","freeNavalny"));
+			userRepo.save(new User("Boris","Nemtsov","Heaven or Hell","1234567891","boris.nemtsov@gmail.com","employee","RIP"));
+			userRepo.save(new User("Ilya","Yashin","Prison in Siberia","1234567891","ilya.yashin@gmail.com","employee","freeYashin"));
 			userRepo.findAll().forEach(System.out::println);
 		};
 	}
