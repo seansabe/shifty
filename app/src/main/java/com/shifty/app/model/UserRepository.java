@@ -10,17 +10,17 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	List<User> findByLastName(String lastName);
 
-	List<User> findByAddress(String address);
+	// List<User> findByAddress(String address);
 
-	List<User> findByPhone(String phone);
+	// List<User> findByPhone(String phone);
 
-	List<User> findByEmail(String email);
+	// List<User> findByEmail(String email);
 
-	List<User> findByRole(String role);
+	// List<User> findByRole(String role);
 
-	List<User> findByPassword(String password);
+	// List<User> findByPassword(String password);
 
-	Optional<User> findByUserId(String userId);
+	Optional<User> findByUserId(long userId);
 
 	void deleteAll();
 }
