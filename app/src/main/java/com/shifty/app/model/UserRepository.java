@@ -5,17 +5,22 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User,Long>{
+public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> findByFirstName(String firstName);
-	List<User> findByLastName(String lastName);
-	List<User> findByAddress(String address);
-	List<User> findByPhone(String phone);
-	List<User> findByEmail(String email);
-	List<User> findByRole (String role);
-	List<User> findByPassword (String password);
-	Optional<User> findByUserId(String userId);
-	
-	
-	
 
+	List<User> findByLastName(String lastName);
+
+	List<User> findByAddress(String address);
+
+	List<User> findByPhone(String phone);
+
+	List<User> findByEmail(String email);
+
+	List<User> findByRole(String role);
+
+	List<User> findByPassword(String password);
+
+	Optional<User> findByUserId(String userId);
+
+	void deleteAll();
 }

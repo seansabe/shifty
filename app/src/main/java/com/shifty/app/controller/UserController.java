@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shifty.app.model.User;
 import com.shifty.app.model.UserRepository;
 
-
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
@@ -29,84 +28,73 @@ public class UserController {
 	@Autowired
 	UserRepository userRepo;
 
+	// CREATE USER
 	@PostMapping("/users")
-	public ResponseEntity<User>createUser(@RequestBody User user){
+	public ResponseEntity<User> createUser(@RequestBody User user) {
 		try {
-			User newUser = new User(user.getFirstName(),user.getLastName(),user.getAddress(),user.getPhone(),user.getEmail(),user.getRole(),user.getPassword());
+			User newUser = new User(user.getFirstName(), user.getLastName(), user.getAddress(), user.getPhone(),
+					user.getEmail(), user.getRole(), user.getPassword());
 			userRepo.save(newUser);
-			return new ResponseEntity< >(newUser,HttpStatus.CREATED);
-		}catch(Exception e) {
+			return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	@PostMapping("/users/{userId}")
-	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable long userId){
-		try{
-			Optional<User>userDel = userRepo.findById(userId);
-			if(userDel.isPresent()) {
-				userRepo.deleteById(userId);
-				User newUser = new User(user.getFirstName(),user.getLastName(),user.getAddress(),user.getPhone(),user.getEmail(),user.getRole(),user.getPassword());
-				userRepo.save(newUser);
-				return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-			}else {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-		}catch(Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
+	// GET ALL USERS
 	@GetMapping("/users")
-	public ResponseEntity<List<User>> getAllUsers(@RequestParam(required=false)String firstName){
+	public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) String firstName) {
 		try {
 			List<User> users = new ArrayList<>();
-			if(firstName==null) {
+			if (firstName == null) {
 				userRepo.findAll().forEach(users::add);
-			}else {
+			} else {
 				userRepo.findByFirstName(firstName).forEach(users::add);
 			}
-			if(users.isEmpty()) {
+			if (users.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 			return new ResponseEntity<>(users, HttpStatus.OK);
 
-		}catch(Exception e) {
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
+	// GET USER BY ID
 	@GetMapping("/users/{userId}")
-	public ResponseEntity<User> getUser(@PathVariable Long userId){
+	public ResponseEntity<User> getUser(@PathVariable Long userId) {
 		try {
-			Optional<User>user = userRepo.findById(userId);
-			if(user.isPresent()) {
+			Optional<User> user = userRepo.findById(userId);
+			if (user.isPresent()) {
 				return new ResponseEntity<>(user.get(), HttpStatus.OK);
-			}else{
+			} else {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
+	// DELETE ALL USERS
 	@DeleteMapping("/users")
-	public ResponseEntity<User> deleteDB(){
+	public ResponseEntity<User> deleteAllUsers() {
 		userRepo.deleteAll();
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	// DELETE USER BY ID
 	@DeleteMapping("/users/{userId}")
-	public ResponseEntity<User> deleteUser(@PathVariable long userId){
+	public ResponseEntity<User> deleteUser(@PathVariable long userId) {
 		try {
-			Optional<User>user = userRepo.findById(userId);
-			if(user.isPresent()) {
+			Optional<User> user = userRepo.findById(userId);
+			if (user.isPresent()) {
 				userRepo.deleteById(userId);
 				return new ResponseEntity<>(HttpStatus.OK);
-			}else {
+			} else {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
