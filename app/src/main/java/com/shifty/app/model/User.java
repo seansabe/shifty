@@ -8,109 +8,110 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Users")
+@Table(name = "Users")
 public class User {
-	
-		@Id
-		@GeneratedValue(strategy = GenerationType.AUTO)
-		private long userId;
 
-		@Column(name="first_name")
-		private String firstName;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long userId;
 
-		@Column(name="last_name")
-		private String lastName;
-		
-		@Column(name="address")
-		private String address;
+	@Column(name = "first_name")
+	private String firstName;
 
-		@Column(name="phone")
-		private String phone;
-		
-		@Column(name="email")
-		private String email;
-		
-		@Column(name="role")
-		private String role;
+	@Column(name = "last_name")
+	private String lastName;
 
-		@Column(name="password")
-		private String password;
+	@Column(name = "address")
+	private String address;
 
-		public User() {
-		}
+	@Column(name = "phone")
+	private String phone;
 
-		public User(String firstName, String lastName, String address, String phone, String email, String role, String password) {
-			this.firstName=firstName;
-			this.lastName=lastName;
-			this.address=address;
-			this.phone=phone;
-			this.email=email;
-			this.role=role;
-			this.password=password;
-		}
+	@Column(name = "email")
+	private String email;
 
-		public long getUserId() {
-			return userId;
-		}
+	@Column(name = "role")
+	private String role;
 
-		public void setUser_id(long userId) {
-			this.userId = userId;
-		}
+	@Column(name = "password")
+	private String password;
 
-		public String getFirstName() {
-			return firstName;
-		}
+	public User() {
+	}
 
-		public void setFirstName(String firstName) {
-			this.firstName = firstName;
-		}
+	public User(String firstName, String lastName, String address, String phone, String email, String role,
+			String password) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.phone = phone;
+		this.email = email;
+		this.role = role;
+		this.password = password;
+	}
 
-		public String getLastName() {
-			return lastName;
-		}
+	public long getUserId() {
+		return userId;
+	}
 
-		public void setLastName(String lastName) {
-			this.lastName = lastName;
-		}
+	public void setUser_id(long userId) {
+		this.userId = userId;
+	}
 
-		public String getAddress() {
-			return address;
-		}
+	public String getFirstName() {
+		return firstName;
+	}
 
-		public void setAddress(String address) {
-			this.address = address;
-		}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-		public String getPhone() {
-			return phone;
-		}
+	public String getLastName() {
+		return lastName;
+	}
 
-		public void setPhone(String phone) {
-			this.phone = phone;
-		}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-		public String getEmail() {
-			return email;
-		}
+	public String getAddress() {
+		return address;
+	}
 
-		public void setEmail(String email) {
-			this.email = email;
-		}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-		public String getRole() {
-			return role;
-		}
+	public String getPhone() {
+		return phone;
+	}
 
-		public void setRole(String role) {
-			this.role = role;
-		}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
-		public String getPassword() {
-			return password;
-		}
+	public String getEmail() {
+		return email;
+	}
 
-		public void setPassword(String password) {
-			this.password = password;
-		}
-		
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 }

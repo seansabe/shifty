@@ -18,20 +18,22 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
+import com.shifty.app.model.Application;
+
 @Entity
 @Table(name = "job")
 public class Job {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long jobId;
 
 	@Column(name = "title")
 	private String title;
 
 	@Column(name = "posting_date")
 	@Temporal(TemporalType.DATE)
-	private LocalDate postingDate; //Usage example LocalDate.of(2022, 2, 14)
+	private LocalDate postingDate; // Usage example LocalDate.of(2022, 2, 14)
 
 	@Column(name = "hour_rate")
 	private double hourRate;
@@ -44,23 +46,22 @@ public class Job {
 
 	@Column(name = "job_start_date")
 	@Temporal(TemporalType.DATE)
-	private LocalDate jobStartDate;  //Usage example LocalDate.of(2022, 2, 14)
+	private LocalDate jobStartDate; // Usage example LocalDate.of(2022, 2, 14)
 
 	@Column(name = "job_finish_date")
 	@Temporal(TemporalType.DATE)
-	private LocalDate jobFinishDate;  //Usage example LocalDate.of(2022, 2, 14)
+	private LocalDate jobFinishDate; // Usage example LocalDate.of(2022, 2, 14)
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "user_id", nullable = false) 
+	@JoinColumn(name = "user_id", nullable = false)
 	@JsonIgnore
-	private User jUser; 
+	private User jUser;
 
-	@OneToMany(mappedBy = "aJob", //in Application class field must be defined private Job aJob;
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "aJob", // in Application class field must be defined private Job aJob;
+			cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Application> applications = new HashSet<>();
 
-	//Contructors and getters, setters
+	// Contructors and getters, setters
 	public Job() {
 
 	}
@@ -88,12 +89,12 @@ public class Job {
 		this.jobFinishDate = jobFinishDate;
 	}
 
-	public int getId() {
-		return id;
+	public long getId() {
+		return jobId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(long jobId) {
+		this.jobId = jobId;
 	}
 
 	public User getUser() {
@@ -165,7 +166,7 @@ public class Job {
 		application.setJob(this);
 	}
 
-	public Set<Application> getApplications(){
+	public Set<Application> getApplications() {
 		return applications;
 	}
 
