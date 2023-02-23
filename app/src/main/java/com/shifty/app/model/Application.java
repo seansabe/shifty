@@ -30,7 +30,7 @@ public class Application {
     @JsonIgnore
     private Job aJob;
 
-    @OneToMany(mappedBy = "userApplication", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserApplication> userApplications = new HashSet<>();
 
     @Column(name = "status")
