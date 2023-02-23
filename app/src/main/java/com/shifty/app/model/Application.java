@@ -73,4 +73,9 @@ public class Application {
 
     public Application() {
     }
+
+    public void addUserApplication(UserApplication userApplication) {
+        this.userApplications.add(userApplication);
+        userApplication.setApplication(this);
+    }
 }
