@@ -1,7 +1,6 @@
 package com.shifty.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -13,16 +12,40 @@ import jakarta.persistence.ManyToOne;
 @Table(name = "user_application")
 public class UserApplication {
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
-    private User user;
+	@Id
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "user_id", nullable = false)
+	@JsonIgnore
+	private User user;
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "application_id", nullable = false)
-    @JsonIgnore
-    private Application application;
+	@Id
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "application_id", nullable = false)
+	@JsonIgnore
+	private Application application;
 
+	public UserApplication() {
+
+	}
+
+	public UserApplication(User user, Application application) {
+		this.user = user;
+		this.application = application;
+	}
+
+	public void setApplication(Application application) {
+		this.application = application;
+	}
+
+	public Application getApplication() {
+		return application;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public User getUser() {
+		return user;
+	}
 }
