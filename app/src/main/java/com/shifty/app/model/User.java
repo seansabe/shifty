@@ -1,10 +1,16 @@
 package com.shifty.app.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -35,6 +41,9 @@ public class User {
 
 	@Column(name = "password")
 	private String password;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<UserApplication> userApplications = new HashSet<>();
 
 	public User() {
 	}
@@ -114,4 +123,16 @@ public class User {
 		this.password = password;
 	}
 
+	public Set<UserApplication> getUserApplications() {
+		return userApplications;
+	}
+
+	public void setUserApplications(Set<UserApplication> userApplications) {
+		this.userApplications = userApplications;
+	}
+
+	public void addUserApplication(UserApplication userApplication) {
+		this.userApplications.add(userApplication);
+		userApplication.setUser(this);
+	}
 }
