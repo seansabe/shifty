@@ -57,13 +57,12 @@ public class Job {
 	@JsonIgnore
 	private User jUser;
 
-	@OneToMany(mappedBy = "aJob", // in Application class field must be defined private Job aJob;
+	@OneToMany(mappedBy = "job", // in Application class field must be defined private Job aJob;
 			cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Application> applications = new HashSet<>();
 
 	// Contructors and getters, setters
 	public Job() {
-
 	}
 
 	public Job(User jUser, String title, LocalDate postingDate, double hourRate, String kindOfJob,

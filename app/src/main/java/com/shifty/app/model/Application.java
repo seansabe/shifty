@@ -28,7 +28,7 @@ public class Application {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "job_id", nullable = false)
     @JsonIgnore
-    private Job aJob;
+    private Job job;
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserApplication> userApplications = new HashSet<>();
@@ -42,7 +42,7 @@ public class Application {
     }
 
     public Job getaJob() {
-        return aJob;
+        return job;
     }
 
     public Set<UserApplication> getUserApplications() {
@@ -53,8 +53,8 @@ public class Application {
         return status;
     }
 
-    public void setJob(Job aJob) {
-        this.aJob = aJob;
+    public void setJob(Job job) {
+        this.job = job;
     }
 
     public void setUserApplications(Set<UserApplication> userApplications) {
@@ -65,8 +65,8 @@ public class Application {
         this.status = status;
     }
 
-    public Application(Job aJob, Set<UserApplication> userApplications, String status) {
-        this.aJob = aJob;
+    public Application(Job job, Set<UserApplication> userApplications, String status) {
+        this.job = job;
         this.userApplications = userApplications;
         this.status = status;
     }
