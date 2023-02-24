@@ -2,6 +2,7 @@ package com.shifty.app.model;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,15 +42,8 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
-	@OneToMany(mappedBy = "user",
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<UserApplication> userApplications = new HashSet<>();
-	
-	@OneToMany(mappedBy = "jobPoster",
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY)
-	private Set<Job> userJobs = new HashSet<>(); 
 
 	public User() {
 		
@@ -142,18 +136,17 @@ public class User {
 	public void setUserApplications(Set<UserApplication> userApplications) {
 		this.userApplications = userApplications;
 	}
-	
-	public void addUserJob(Job job) {
-		this.userJobs.add(job);
-		job.setUser(this);
-	}
-	
-	public Set<Job> getUserJobs(){
-		return userJobs;
-	}
-	
-	public void setUserJobs(Set<Job> jobs) {
-		this.userJobs = jobs;
+
+	public Set<UserApplication> getUserApplications() {
+		return userApplications;
 	}
 
+	public void setUserApplications(Set<UserApplication> userApplications) {
+		this.userApplications = userApplications;
+	}
+
+	public void addUserApplication(UserApplication userApplication) {
+		this.userApplications.add(userApplication);
+		userApplication.setUser(this);
+	}
 }

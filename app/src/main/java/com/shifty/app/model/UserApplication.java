@@ -2,50 +2,37 @@ package com.shifty.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 
 @Entity
 @Table(name = "user_application")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserApplication {
 
-	@Id
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "user_id", nullable = false)
-	@JsonIgnore
-	private User user;
+    @EmbeddedId
+    private UserApplicationId userApplicationId;
 
-	@Id
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "application_id", nullable = false)
-	@JsonIgnore
-	private Application application;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @MapsId("userId")
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
 
-	public UserApplication() {
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @MapsId("applicationId")
+    @JoinColumn(name = "application_id", nullable = false)
+    @JsonIgnore
+    private Application application;
 
-	}
-
-	public UserApplication(User user, Application application) {
-		this.user = user;
-		this.application = application;
-	}
-
-	public void setApplication(Application application) {
-		this.application = application;
-	}
-
-	public Application getApplication() {
-		return application;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public User getUser() {
-		return user;
-	}
 }
