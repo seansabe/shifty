@@ -10,16 +10,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	List<User> findByLastName(String lastName);
 
-	// List<User> findByAddress(String address);
-
-	// List<User> findByPhone(String phone);
-
-	// List<User> findByEmail(String email);
-
-	// List<User> findByRole(String role);
-
-	// List<User> findByPassword(String password);
-
 	Optional<User> findByUserId(long userId);
 
 	void deleteAll();
