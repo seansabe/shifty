@@ -1,7 +1,6 @@
 package com.shifty.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.JoinColumn;
@@ -35,4 +34,5 @@ public class UserApplication {
     @JoinColumn(name = "application_id", nullable = false)
     @JsonIgnore
     private Application application;
+
 }

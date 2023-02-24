@@ -46,6 +46,7 @@ public class User {
 	private Set<UserApplication> userApplications = new HashSet<>();
 
 	public User() {
+		
 	}
 
 	public User(String firstName, String lastName, String address, String phone, String email, String role,
@@ -121,6 +122,19 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public void addUserApplication(UserApplication userApplication) {
+		this.userApplications.add(userApplication);
+		userApplication.setUser(this);
+	}
+	
+	public Set<UserApplication> getUserApplications(){
+		return userApplications;
+	}
+	
+	public void setUserApplications(Set<UserApplication> userApplications) {
+		this.userApplications = userApplications;
 	}
 
 	public Set<UserApplication> getUserApplications() {

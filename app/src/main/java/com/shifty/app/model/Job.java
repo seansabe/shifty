@@ -53,11 +53,11 @@ public class Job {
 	private LocalDate jobFinishDate; // Usage example LocalDate.of(2022, 2, 14)
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "userId", nullable = false)
 	@JsonIgnore
-	private User jUser;
+	private User jobPoster;
 
-	@OneToMany(mappedBy = "job", // in Application class field must be defined private Job aJob;
+	@OneToMany(mappedBy = "job", // in Application class field must be defined private Job job;
 			cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Application> applications = new HashSet<>();
 
@@ -65,9 +65,9 @@ public class Job {
 	public Job() {
 	}
 
-	public Job(User jUser, String title, LocalDate postingDate, double hourRate, String kindOfJob,
+	public Job(User jobPoster, String title, LocalDate postingDate, double hourRate, String kindOfJob,
 			String description, LocalDate jobStartDate, LocalDate jobFinishDate) {
-		this.jUser = jUser;
+		this.jobPoster = jobPoster;
 		this.title = title;
 		this.postingDate = postingDate;
 		this.hourRate = hourRate;
@@ -97,11 +97,11 @@ public class Job {
 	}
 
 	public User getUser() {
-		return jUser;
+		return jobPoster;
 	}
 
-	public void setUser(User jUser) {
-		this.jUser = jUser;
+	public void setUser(User jobPoster) {
+		this.jobPoster = jobPoster;
 	}
 
 	public String getTitle() {
