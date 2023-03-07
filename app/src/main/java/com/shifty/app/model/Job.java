@@ -18,8 +18,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
-import com.shifty.app.model.Application;
-
 @Entity
 @Table(name = "job")
 public class Job {
@@ -53,32 +51,21 @@ public class Job {
 	private LocalDate jobFinishDate; // Usage example LocalDate.of(2022, 2, 14)
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "userId", nullable = false)
+	@JoinColumn(name = "user_id", nullable = false)
 	@JsonIgnore
-	private User jobPoster;
+	private User poster;
 
 	@OneToMany(mappedBy = "job", // in Application class field must be defined private Job job;
-			cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+			cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Application> applications = new HashSet<>();
 
 	// Contructors and getters, setters
 	public Job() {
 	}
 
-	public Job(User jobPoster, String title, LocalDate postingDate, double hourRate, String kindOfJob,
+	public Job(User poster, String title, LocalDate postingDate, double hourRate, String kindOfJob,
 			String description, LocalDate jobStartDate, LocalDate jobFinishDate) {
-		this.jobPoster = jobPoster;
-		this.title = title;
-		this.postingDate = postingDate;
-		this.hourRate = hourRate;
-		this.kindOfJob = kindOfJob;
-		this.description = description;
-		this.jobStartDate = jobStartDate;
-		this.jobFinishDate = jobFinishDate;
-	}
-
-	public Job(String title, LocalDate postingDate, double hourRate, String kindOfJob,
-			String description, LocalDate jobStartDate, LocalDate jobFinishDate) {
+		this.poster = poster;
 		this.title = title;
 		this.postingDate = postingDate;
 		this.hourRate = hourRate;
@@ -97,11 +84,11 @@ public class Job {
 	}
 
 	public User getUser() {
-		return jobPoster;
+		return poster;
 	}
 
-	public void setUser(User jobPoster) {
-		this.jobPoster = jobPoster;
+	public void setUser(User poster) {
+		this.poster = poster;
 	}
 
 	public String getTitle() {

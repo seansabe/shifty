@@ -26,16 +26,15 @@ public class JobController {
 	@Autowired
 	private UserRepository userRepo;
 
-	@GetMapping("/users/{user_id}/jobs")
-	public ResponseEntity<List<Job>> getJobsByUserId(@PathVariable("user_id") long userId){
-
+	@GetMapping("/users/{userId}/jobs")
+	public ResponseEntity<List<Job>> getJobsByUserId(@PathVariable("userId") Long userId) {
 		try {
 			Optional<User> user = userRepo.findById(userId);
-			if(user.isPresent()) {
-				List<Job> jobs = jobRepo.findByjobPoster(user);
+			if (user.isPresent()) {
+				List<Job> jobs = jobRepo.findByPoster(user);
 				if (!jobs.isEmpty()) {
 					return new ResponseEntity<>(jobs, HttpStatus.OK);
-				} 
+				}
 			}
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {

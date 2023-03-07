@@ -25,19 +25,24 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long applicationId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "job_id", nullable = false)
     @JsonIgnore
     private Job job;
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<UserApplication> userApplications = new HashSet<>();
 
     @Column(name = "status")
     private String status;
 
+    public static String APPLIED = "Applied";
+    public static String ASSIGNED = "Assigned";
+    public static String CANCELED = "Canceled";
+
     // GETTERS, SETTERS, CONSTRUCTORS
-    public Long getApplicationId() {
+    public long getApplicationId() {
         return applicationId;
     }
 
@@ -65,9 +70,8 @@ public class Application {
         this.status = status;
     }
 
-    public Application(Job job, Set<UserApplication> userApplications, String status) {
+    public Application(Job job, String status) {
         this.job = job;
-        this.userApplications = userApplications;
         this.status = status;
     }
 

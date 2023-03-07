@@ -9,7 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 
-import lombok.AllArgsConstructor;
+//import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 
@@ -17,22 +17,27 @@ import lombok.Data;
 @Table(name = "user_application")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+// @AllArgsConstructor
 public class UserApplication {
 
     @EmbeddedId
     private UserApplicationId userApplicationId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @MapsId("userId")
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @MapsId("applicationId")
     @JoinColumn(name = "application_id", nullable = false)
     @JsonIgnore
     private Application application;
 
+    public UserApplication(User user, Application application) {
+        this.userApplicationId = new UserApplicationId();
+        this.user = user;
+        this.application = application;
+    }
 }
