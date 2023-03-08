@@ -1,19 +1,26 @@
 package com.shifty.app.model;
 
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Id;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 @Embeddable
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class UserApplicationId implements Serializable {
+    
+	private Long user_id;
+	private Long application_id;
 
-    private Long userId;
+    public UserApplicationId(Long userId, Long applicationId) {
+    	this.user_id= userId;
+        this.application_id = applicationId;
+    }
 
-    private Long applicationId;
+    public UserApplicationId() {}
+
 }

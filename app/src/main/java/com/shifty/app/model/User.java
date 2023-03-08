@@ -3,6 +3,8 @@ package com.shifty.app.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +16,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User {
 
 	@Id
@@ -43,10 +45,20 @@ public class User {
 	private String password;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Set<UserApplication> userApplications = new HashSet<>();
+	
+	@OneToMany(mappedBy = "poster",
+ 			cascade = CascadeType.ALL,
+ 			fetch = FetchType.LAZY)
+	@JsonIgnore
+ 	private Set<Job> userJobs = new HashSet<>(); 
+
+	// ROLE STATIC VARIABLES
+	public static String POSTER = "Poster";
+	public static String BUSTER = "Buster";
 
 	public User() {
-		
 	}
 
 	public User(String firstName, String lastName, String address, String phone, String email, String role,
@@ -62,10 +74,6 @@ public class User {
 
 	public long getUserId() {
 		return userId;
-	}
-
-	public void setUser_id(long userId) {
-		this.userId = userId;
 	}
 
 	public String getFirstName() {
@@ -123,19 +131,6 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public void addUserApplication(UserApplication userApplication) {
-		this.userApplications.add(userApplication);
-		userApplication.setUser(this);
-	}
-	
-	public Set<UserApplication> getUserApplications(){
-		return userApplications;
-	}
-	
-	public void setUserApplications(Set<UserApplication> userApplications) {
-		this.userApplications = userApplications;
-	}
 
 	public Set<UserApplication> getUserApplications() {
 		return userApplications;
@@ -149,4 +144,17 @@ public class User {
 		this.userApplications.add(userApplication);
 		userApplication.setUser(this);
 	}
+	
+	public void addUserJob(Job job) {
+ 		this.userJobs.add(job);
+ 		job.setUser(this);
+ 	}
+
+ 	public Set<Job> getUserJobs(){
+ 		return userJobs;
+ 	}
+
+ 	public void setUserJobs(Set<Job> jobs) {
+ 		this.userJobs = jobs;
+ 	}
 }
