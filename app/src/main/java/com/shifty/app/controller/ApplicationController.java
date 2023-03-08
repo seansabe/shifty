@@ -31,18 +31,18 @@ public class ApplicationController {
 
     @Autowired
     private ApplicationRepository appRepo;
-    
+
     @Autowired
     private UserApplicationRepository userAppRepo;
-    
+
     @Autowired
     private UserRepository userRepo;
-    
-    @GetMapping("/userapplications/users/{applicationId}")
-    public ResponseEntity<List<User>> getUsersByApplicationId(@PathVariable("applicationId") Long applicationId){
+
+    @GetMapping("/applications/users/{applicationId}")
+    public ResponseEntity<List<User>> getUsersByApplicationId(@PathVariable("applicationId") Long applicationId) {
         try {
             Optional<Application> application = appRepo.findById(applicationId);
-            if(application.isPresent()) {
+            if (application.isPresent()) {
                 List<UserApplication> userApplications = userAppRepo.findByApplication(application);
                 if (!userApplications.isEmpty()) {
                     List<User> users = new ArrayList<>();
@@ -60,7 +60,6 @@ public class ApplicationController {
         }
     }
 
-    
     @GetMapping("/applications")
     public ResponseEntity<List<Application>> getAllApplications() {
         try {
