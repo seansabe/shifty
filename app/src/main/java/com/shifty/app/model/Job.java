@@ -50,13 +50,14 @@ public class Job {
 	@Temporal(TemporalType.DATE)
 	private LocalDate jobFinishDate; // Usage example LocalDate.of(2022, 2, 14)
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	@JsonIgnore
 	private User poster;
 
 	@OneToMany(mappedBy = "job", // in Application class field must be defined private Job job;
 			cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnore
 	private Set<Application> applications = new HashSet<>();
 
 	// Contructors and getters, setters

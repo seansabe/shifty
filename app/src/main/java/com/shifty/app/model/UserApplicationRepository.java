@@ -1,6 +1,7 @@
 package com.shifty.app.model;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -8,7 +9,7 @@ public interface UserApplicationRepository extends JpaRepository<UserApplication
 
     List<UserApplication> findByUser(User user);
 
-    List<UserApplication> findByApplication(Application application);
+    List<UserApplication> findByApplication(Optional<Application> application);
 
     List<UserApplication> findByUserAndApplication(User user, Application application);
 

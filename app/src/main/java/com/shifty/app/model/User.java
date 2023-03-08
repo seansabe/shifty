@@ -47,6 +47,12 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Set<UserApplication> userApplications = new HashSet<>();
+	
+	@OneToMany(mappedBy = "poster",
+ 			cascade = CascadeType.ALL,
+ 			fetch = FetchType.LAZY)
+	@JsonIgnore
+ 	private Set<Job> userJobs = new HashSet<>(); 
 
 	// ROLE STATIC VARIABLES
 	public static String POSTER = "Poster";
@@ -138,4 +144,17 @@ public class User {
 		this.userApplications.add(userApplication);
 		userApplication.setUser(this);
 	}
+	
+	public void addUserJob(Job job) {
+ 		this.userJobs.add(job);
+ 		job.setUser(this);
+ 	}
+
+ 	public Set<Job> getUserJobs(){
+ 		return userJobs;
+ 	}
+
+ 	public void setUserJobs(Set<Job> jobs) {
+ 		this.userJobs = jobs;
+ 	}
 }

@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shifty.app.model.Application;
 import com.shifty.app.model.ApplicationRepository;
+import com.shifty.app.model.User;
+import com.shifty.app.model.UserApplication;
+import com.shifty.app.model.UserApplicationRepository;
+import com.shifty.app.model.UserRepository;
 
 @CrossOrigin(origins = "hhtp://localhost:8081")
 @RestController
@@ -27,14 +31,43 @@ public class ApplicationController {
 
     @Autowired
     private ApplicationRepository appRepo;
+    
+    @Autowired
+    private UserApplicationRepository userAppRepo;
+    
+    @Autowired
+    private UserRepository userRepo;
+    
+    @GetMapping("/userapplications/users/{applicationId}")
+    public ResponseEntity<List<User>> getUsersByApplicationId(@PathVariable("applicationId") Long applicationId){
+        try {
+            Optional<Application> application = appRepo.findById(applicationId);
+            if(application.isPresent()) {
+                List<UserApplication> userApplications = userAppRepo.findByApplication(application);
+                if (!userApplications.isEmpty()) {
+                    List<User> users = new ArrayList<>();
+                    for (UserApplication userApplication : userApplications) {
+                        User user = userApplication.getUser();
+                        users.add(user);
+                    }
+                    return new ResponseEntity<>(users, HttpStatus.OK);
+                }
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
+    
     @GetMapping("/applications")
     public ResponseEntity<List<Application>> getAllApplications() {
         try {
             List<Application> applications = new ArrayList<>();
             appRepo.findAll().forEach(applications::add);
             if (applications.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(applications, HttpStatus.OK);
         } catch (Exception e) {

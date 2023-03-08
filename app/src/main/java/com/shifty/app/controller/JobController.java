@@ -1,5 +1,6 @@
 package com.shifty.app.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,20 @@ public class JobController {
 	@Autowired
 	private UserRepository userRepo;
 
+	@GetMapping("/jobs")
+	public ResponseEntity<List<Job>> getAllJobs(){
+		try {
+			List<Job> jobs = new ArrayList<>();
+			jobRepo.findAll().forEach(jobs::add);
+			if(jobs.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(jobs, HttpStatus.OK);		
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@GetMapping("/users/{userId}/jobs")
 	public ResponseEntity<List<Job>> getJobsByUserId(@PathVariable("userId") Long userId) {
 		try {

@@ -46,20 +46,23 @@ public class AppApplication {
 					"Looking for someone who can do my groceries next month. Willing to lift more than 20 kilograms",
 					LocalDate.of(2023, 03, 1), LocalDate.of(2023, 3, 1));
 
-			jobRepo.save(job1);
-			jobRepo.save(job2);
 
 			// CREATE JOB APPLICATION EXAMPLE
 			Application app1 = new Application(job1, Application.APPLIED);
 			job1.addApplication(app1);
-			appRepo.save(app1);
+			jobRepo.save(job1);
+			jobRepo.save(job2);
+
 			UserApplication userApp = new UserApplication(buster, app1);
 			buster.addUserApplication(userApp);
 			app1.addUserApplication(userApp);
+			appRepo.save(app1);
 			userAppRepo.save(userApp);
 
-			// userRepo.findAll().forEach(System.out::println);
-			// jobRepo.findAll().forEach(System.out::println);
+			userRepo.findAll().forEach(System.out::println);
+			jobRepo.findAll().forEach(System.out::println);
+			appRepo.findAll().forEach(System.out::println);
+			userAppRepo.findAll().forEach(System.out::println);
 		};
 	};
 }
