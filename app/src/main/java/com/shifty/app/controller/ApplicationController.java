@@ -37,8 +37,10 @@ public class ApplicationController {
 
     @Autowired
     private UserRepository userRepo;
+    
+ 
 
-    @GetMapping("/applications/users/{applicationId}")
+    @GetMapping("/application/{applicationId}/users")
     public ResponseEntity<List<User>> getUsersByApplicationId(@PathVariable("applicationId") Long applicationId) {
         try {
             Optional<Application> application = appRepo.findById(applicationId);
@@ -97,6 +99,8 @@ public class ApplicationController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    
 
     @PutMapping("/applications/{id}")
     public ResponseEntity<Application> updateApplication(@PathVariable Long id,

@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.shifty.app.model.User;
 import com.shifty.app.model.UserRepository;
+import com.shifty.app.request.UserLoginRequest;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
@@ -97,5 +99,23 @@ public class UserController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	// User Login
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody UserLoginRequest loginRequest){
+		try {
+			Optional<User> userData = userRepo.findById(loginRequest.getUserId());
+			if(userData.isPresent()) {
+				String password = userData.get().getPassword();
+				if(password.equals(loginRequest.getPassword())) {
+					return new ResponseEntity<>(userData.get(), HttpStatus.OK);
+				}
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);	
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return null;
 	}
 }

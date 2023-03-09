@@ -9,8 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.shifty.app.model.Application;
 import com.shifty.app.model.Job;
 import com.shifty.app.model.JobRepository;
 import com.shifty.app.model.User;
@@ -57,4 +61,17 @@ public class JobController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+    @PostMapping("/jobs")
+    public ResponseEntity<Job> createJob(@RequestBody Job job) {
+        try {
+            Job newJob = new Job(job.getUser(), 
+            		job.getTitle(), job.getPostingDate(), job.getHourRate(),
+            		job.getKindOfJob(),job.getDescription(),job.getJobStartDate(),job.getJobFinishDate());
+            jobRepo.save(newJob);
+            return new ResponseEntity<>(newJob, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
