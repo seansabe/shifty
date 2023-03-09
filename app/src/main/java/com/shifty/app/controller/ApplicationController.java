@@ -38,7 +38,7 @@ public class ApplicationController {
     @Autowired
     private UserRepository userRepo;
 
-    @GetMapping("/applications/users/{applicationId}")
+    @GetMapping("/applications/{applicationId}/users")
     public ResponseEntity<List<User>> getUsersByApplicationId(@PathVariable("applicationId") Long applicationId) {
         try {
             Optional<Application> application = appRepo.findById(applicationId);
