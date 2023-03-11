@@ -19,10 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shifty.app.model.Application;
 import com.shifty.app.model.ApplicationRepository;
-import com.shifty.app.model.User;
-import com.shifty.app.model.UserApplication;
-import com.shifty.app.model.UserApplicationRepository;
-import com.shifty.app.model.UserRepository;
 
 @CrossOrigin(origins = "hhtp://localhost:8081")
 @RestController
@@ -32,34 +28,7 @@ public class ApplicationController {
     @Autowired
     private ApplicationRepository appRepo;
 
-    @Autowired
-    private UserApplicationRepository userAppRepo;
-
-    @Autowired
-    private UserRepository userRepo;
-
-    @GetMapping("/applications/{applicationId}/users")
-    public ResponseEntity<List<User>> getUsersByApplicationId(@PathVariable("applicationId") Long applicationId) {
-        try {
-            Optional<Application> application = appRepo.findById(applicationId);
-            if (application.isPresent()) {
-                List<UserApplication> userApplications = userAppRepo.findByApplication(application);
-                if (!userApplications.isEmpty()) {
-                    List<User> users = new ArrayList<>();
-                    for (UserApplication userApplication : userApplications) {
-                        User user = userApplication.getUser();
-                        users.add(user);
-                    }
-                    return new ResponseEntity<>(users, HttpStatus.OK);
-                }
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            System.out.print(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
+    // GET ALL APPLICATIONS
     @GetMapping("/applications")
     public ResponseEntity<List<Application>> getAllApplications() {
         try {
@@ -74,23 +43,11 @@ public class ApplicationController {
         }
     }
 
-    @GetMapping(value = "/applications/{id}")
-    public ResponseEntity<Application> getApplicationById(@PathVariable("id") Long applicationId) {
-        try {
-            Optional<Application> application = appRepo.findById(applicationId);
-            if (application.isPresent()) {
-                return new ResponseEntity<>(application.get(), HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
+    // CREATE AN APPLICATION FOR A JOB
     @PostMapping("/applications")
     public ResponseEntity<Application> createApplication(@RequestBody Application application) {
         try {
-            Application newApplication = new Application(application.getaJob(), application.getStatus());
+            Application newApplication = new Application(application.getJob(), application.getStatus());
             appRepo.save(newApplication);
             return new ResponseEntity<>(newApplication, HttpStatus.CREATED);
         } catch (Exception e) {

@@ -9,12 +9,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     Optional<Application> findById(long applicationId);
 
-    List<Application> findByJob(Job job);
+    List<Application> findByJob(Optional<Job> job);
+
+    List<Application> findByUser(Optional<User> user);
 
     List<Application> findByStatus(String status);
-
-    List<Application> findByUserApplicationsUser(User user);
-
-    List<Application> findByUserApplicationsUserAndStatus(User user, String status);
-
 }

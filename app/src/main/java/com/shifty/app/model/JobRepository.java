@@ -5,5 +5,5 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JobRepository extends JpaRepository<Job, Long> {
-	List<Job> findByPoster(Optional<User> user);
+	List<Job> findByUser(Optional<User> user);
 }

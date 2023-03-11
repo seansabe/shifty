@@ -50,13 +50,13 @@ public class Job {
 	@Temporal(TemporalType.DATE)
 	private LocalDate jobFinishDate; // Usage example LocalDate.of(2022, 2, 14)
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	@JsonIgnore
-	private User poster;
+	private User user;
 
 	@OneToMany(mappedBy = "job", // in Application class field must be defined private Job job;
-			cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+			cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Set<Application> applications = new HashSet<>();
 
@@ -64,9 +64,9 @@ public class Job {
 	public Job() {
 	}
 
-	public Job(User poster, String title, LocalDate postingDate, double hourRate, String kindOfJob,
+	public Job(User user, String title, LocalDate postingDate, double hourRate, String kindOfJob,
 			String description, LocalDate jobStartDate, LocalDate jobFinishDate) {
-		this.poster = poster;
+		this.user = user;
 		this.title = title;
 		this.postingDate = postingDate;
 		this.hourRate = hourRate;
@@ -74,6 +74,7 @@ public class Job {
 		this.description = description;
 		this.jobStartDate = jobStartDate;
 		this.jobFinishDate = jobFinishDate;
+		user.getUserPostings().add(this);
 	}
 
 	public long getId() {
@@ -85,11 +86,11 @@ public class Job {
 	}
 
 	public User getUser() {
-		return poster;
+		return user;
 	}
 
 	public void setUser(User poster) {
-		this.poster = poster;
+		this.user = poster;
 	}
 
 	public String getTitle() {
@@ -153,7 +154,7 @@ public class Job {
 		application.setJob(this);
 	}
 
-	public Set<Application> getApplications() {
+	public Set<Application> getJobApplications() {
 		return applications;
 	}
 

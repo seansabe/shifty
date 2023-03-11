@@ -10,8 +10,6 @@ import com.shifty.app.model.ApplicationRepository;
 import com.shifty.app.model.Job;
 import com.shifty.app.model.JobRepository;
 import com.shifty.app.model.User;
-import com.shifty.app.model.UserApplication;
-import com.shifty.app.model.UserApplicationRepository;
 import com.shifty.app.model.UserRepository;
 import com.shifty.app.model.JobType;
 
@@ -23,8 +21,7 @@ public class AppApplication {
 	}
 
 	@Bean
-	ApplicationRunner init(UserRepository userRepo, JobRepository jobRepo, ApplicationRepository appRepo,
-			UserApplicationRepository userAppRepo) {
+	ApplicationRunner init(UserRepository userRepo, JobRepository jobRepo, ApplicationRepository appRepo) {
 		return arg -> {
 
 			// CREATE USER EXAMPLE
@@ -46,23 +43,18 @@ public class AppApplication {
 					"Looking for someone who can do my groceries next month. Willing to lift more than 20 kilograms",
 					LocalDate.of(2023, 03, 1), LocalDate.of(2023, 3, 1));
 
+			jobRepo.save(job1);
+			jobRepo.save(job2);
 
 			// CREATE JOB APPLICATION EXAMPLE
 			Application app1 = new Application(job1, Application.APPLIED);
 			job1.addApplication(app1);
-			jobRepo.save(job1);
-			jobRepo.save(job2);
-
-			UserApplication userApp = new UserApplication(buster, app1);
-			buster.addUserApplication(userApp);
-			app1.addUserApplication(userApp);
+			buster.addApplication(app1);
 			appRepo.save(app1);
-			userAppRepo.save(userApp);
 
 			userRepo.findAll().forEach(System.out::println);
 			jobRepo.findAll().forEach(System.out::println);
 			appRepo.findAll().forEach(System.out::println);
-			userAppRepo.findAll().forEach(System.out::println);
 		};
 	};
 }

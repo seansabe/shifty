@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shifty.app.model.User;
+import com.shifty.app.model.Job;
+import com.shifty.app.model.Application;
 import com.shifty.app.model.UserRepository;
+import com.shifty.app.model.JobRepository;
+import com.shifty.app.model.ApplicationRepository;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
@@ -28,15 +32,46 @@ public class UserController {
 	@Autowired
 	UserRepository userRepo;
 
-	// CREATE USER
-	@PostMapping("/users")
-	public ResponseEntity<User> createUser(@RequestBody User user) {
+	@Autowired
+	JobRepository jobRepo;
+
+	@Autowired
+	ApplicationRepository appRepo;
+
+	// GET ALL APPLICATIONS AN USER HAS SUBMITTED
+	@GetMapping("/users/{userId}/applications")
+	public ResponseEntity<List<Application>> getApplicationByUserId(@PathVariable("userId") Long userId) {
 		try {
-			User newUser = new User(user.getFirstName(), user.getLastName(), user.getAddress(), user.getPhone(),
-					user.getEmail(), user.getRole(), user.getPassword());
-			userRepo.save(newUser);
-			return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+			Optional<User> userData = userRepo.findById(userId);
+			List<Application> applications = new ArrayList<>();
+			if (userData.isPresent()) {
+				User user = userData.get();
+				for (Application app : user.getUserApplications()) {
+					applications.add(app);
+				}
+				return new ResponseEntity<>(applications, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	// GET ALL POSTED JOBS FROM AN USER
+	@GetMapping("/users/{userId}/jobs")
+	public ResponseEntity<List<Job>> getJobsByUserId(@PathVariable("userId") Long userId) {
+		try {
+			Optional<User> user = userRepo.findById(userId);
+			if (user.isPresent()) {
+				List<Job> jobs = jobRepo.findByUser(user);
+				if (!jobs.isEmpty()) {
+					return new ResponseEntity<>(jobs, HttpStatus.OK);
+				}
+			}
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -71,6 +106,19 @@ public class UserController {
 			} else {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	// CREATE USER
+	@PostMapping("/users")
+	public ResponseEntity<User> createUser(@RequestBody User user) {
+		try {
+			User newUser = new User(user.getFirstName(), user.getLastName(), user.getAddress(), user.getPhone(),
+					user.getEmail(), user.getRole(), user.getPassword());
+			userRepo.save(newUser);
+			return new ResponseEntity<>(newUser, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

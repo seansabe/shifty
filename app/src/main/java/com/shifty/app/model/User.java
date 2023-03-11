@@ -46,13 +46,11 @@ public class User {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
-	private Set<UserApplication> userApplications = new HashSet<>();
-	
-	@OneToMany(mappedBy = "poster",
- 			cascade = CascadeType.ALL,
- 			fetch = FetchType.LAZY)
+	private Set<Application> applications = new HashSet<>();
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
- 	private Set<Job> userJobs = new HashSet<>(); 
+	private Set<Job> jobs = new HashSet<>();
 
 	// ROLE STATIC VARIABLES
 	public static String POSTER = "Poster";
@@ -132,29 +130,29 @@ public class User {
 		this.password = password;
 	}
 
-	public Set<UserApplication> getUserApplications() {
-		return userApplications;
+	public Set<Application> getUserApplications() {
+		return applications;
 	}
 
-	public void setUserApplications(Set<UserApplication> userApplications) {
-		this.userApplications = userApplications;
+	public void setUserApplications(Set<Application> applications) {
+		this.applications = applications;
 	}
 
-	public void addUserApplication(UserApplication userApplication) {
-		this.userApplications.add(userApplication);
-		userApplication.setUser(this);
+	public void addApplication(Application application) {
+		this.applications.add(application);
+		application.setUser(this);
 	}
-	
-	public void addUserJob(Job job) {
- 		this.userJobs.add(job);
- 		job.setUser(this);
- 	}
 
- 	public Set<Job> getUserJobs(){
- 		return userJobs;
- 	}
+	public void addJob(Job job) {
+		this.jobs.add(job);
+		job.setUser(this);
+	}
 
- 	public void setUserJobs(Set<Job> jobs) {
- 		this.userJobs = jobs;
- 	}
+	public Set<Job> getUserPostings() {
+		return jobs;
+	}
+
+	public void setUserPostings(Set<Job> jobs) {
+		this.jobs = jobs;
+	}
 }
