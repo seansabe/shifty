@@ -70,8 +70,12 @@ public class User {
 		this.password = password;
 	}
 
-	public long getUserId() {
+	public Long getUserId() {
 		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstName() {
@@ -134,7 +138,7 @@ public class User {
 		return applications;
 	}
 
-	public void setUserApplications(Set<Application> applications) {
+	public void setApplications(Set<Application> applications) {
 		this.applications = applications;
 	}
 
@@ -148,7 +152,7 @@ public class User {
 		job.setUser(this);
 	}
 
-	public Set<Job> getUserPostings() {
+	public Set<Job> getUserJobs() {
 		return jobs;
 	}
 

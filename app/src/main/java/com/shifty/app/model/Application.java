@@ -18,7 +18,7 @@ public class Application {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long applicationId;
+    private long applicationId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "job_id", nullable = false)
@@ -32,10 +32,6 @@ public class Application {
 
     @Column(name = "status")
     private String status;
-
-    public static String APPLIED = "Applied";
-    public static String ASSIGNED = "Assigned";
-    public static String CANCELED = "Canceled";
 
     // GETTERS, SETTERS, CONSTRUCTORS
     public long getApplicationId() {
@@ -70,8 +66,8 @@ public class Application {
         this.job = job;
         this.user = user;
         this.status = status;
-        job.getJobApplications().add(this);
-        user.getUserApplications().add(this);
+        // job.getJobApplications().add(this);
+        // user.getUserApplications().add(this);
     }
 
     public Application() {

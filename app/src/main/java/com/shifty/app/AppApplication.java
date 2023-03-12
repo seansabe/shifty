@@ -12,6 +12,7 @@ import com.shifty.app.model.JobRepository;
 import com.shifty.app.model.User;
 import com.shifty.app.model.UserRepository;
 import com.shifty.app.model.JobType;
+import com.shifty.app.model.StatusType;
 
 @SpringBootApplication
 public class AppApplication {
@@ -43,11 +44,14 @@ public class AppApplication {
 					"Looking for someone who can do my groceries next month. Willing to lift more than 20 kilograms",
 					LocalDate.of(2023, 03, 1), LocalDate.of(2023, 3, 1));
 
+			poster.addJob(job1);
+			poster.addJob(job2);
+
 			jobRepo.save(job1);
 			jobRepo.save(job2);
 
 			// CREATE JOB APPLICATION EXAMPLE
-			Application app1 = new Application(job1, buster, Application.APPLIED);
+			Application app1 = new Application(job1, buster, StatusType.APPLIED);
 			job1.addApplication(app1);
 			buster.addApplication(app1);
 			appRepo.save(app1);

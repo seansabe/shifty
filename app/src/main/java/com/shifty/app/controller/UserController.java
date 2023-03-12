@@ -98,7 +98,7 @@ public class UserController {
 	@GetMapping("/users/{userId}")
 	public ResponseEntity<User> getUser(@PathVariable Long userId) {
 		try {
-			Optional<User> user = userRepo.findById(userId);
+			Optional<User> user = userRepo.findByUserId(userId);
 			if (user.isPresent()) {
 				return new ResponseEntity<>(user.get(), HttpStatus.OK);
 			} else {
@@ -133,7 +133,7 @@ public class UserController {
 	@DeleteMapping("/users/{userId}")
 	public ResponseEntity<User> deleteUser(@PathVariable long userId) {
 		try {
-			Optional<User> user = userRepo.findById(userId);
+			Optional<User> user = userRepo.findByUserId(userId);
 			if (user.isPresent()) {
 				userRepo.deleteById(userId);
 				return new ResponseEntity<>(HttpStatus.OK);

@@ -23,6 +23,7 @@ import com.shifty.app.model.Job;
 import com.shifty.app.model.JobRepository;
 import com.shifty.app.model.User;
 import com.shifty.app.model.UserRepository;
+import com.shifty.app.requests.ApplicationRequest;
 
 @CrossOrigin(origins = "hhtp://localhost:8081")
 @RestController
@@ -55,10 +56,10 @@ public class ApplicationController {
 
     // CREATE AN APPLICATION FOR A JOB
     @PostMapping("/applications")
-    public ResponseEntity<Application> createApplication(@RequestBody Application application) {
+    public ResponseEntity<Application> createApplication(@RequestBody ApplicationRequest application) {
         try {
-            Optional<Job> job = jobRepo.findById(application.getJob().getId());
-            Optional<User> user = userRepo.findById(application.getUser().getUserId());
+            Optional<Job> job = jobRepo.findByJobId(application.getJobId());
+            Optional<User> user = userRepo.findByUserId(application.getUserId());
             Application newApplication = appRepo.save(new Application(job.get(), user.get(),
                     application.getStatus()));
             return new ResponseEntity<>(newApplication, HttpStatus.CREATED);
@@ -69,9 +70,9 @@ public class ApplicationController {
 
     // UPDATE AN APPLICATION
     @PutMapping("/applications/{id}")
-    public ResponseEntity<Application> updateApplication(@PathVariable Long id,
+    public ResponseEntity<Application> updateApplication(@PathVariable Long applicationId,
             @RequestBody Application updatedApplication) {
-        Optional<Application> application = appRepo.findById(id);
+        Optional<Application> application = appRepo.findByApplicationId(applicationId);
         if (application.isPresent()) {
             Application existingApplication = application.get();
             existingApplication.setStatus(updatedApplication.getStatus());
@@ -85,7 +86,7 @@ public class ApplicationController {
     // DELETE AN APPLICATION
     @DeleteMapping("/applications/{id}")
     public ResponseEntity<Void> deleteApplication(@PathVariable("id") Long applicationId) {
-        Optional<Application> application = appRepo.findById(applicationId);
+        Optional<Application> application = appRepo.findByApplicationId(applicationId);
         if (application.isPresent()) {
             appRepo.delete(application.get());
             return ResponseEntity.noContent().build();

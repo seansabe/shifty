@@ -50,7 +50,7 @@ public class Job {
 	@Temporal(TemporalType.DATE)
 	private LocalDate jobFinishDate; // Usage example LocalDate.of(2022, 2, 14)
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
 	@JsonIgnore
 	private User user;
@@ -74,14 +74,26 @@ public class Job {
 		this.description = description;
 		this.jobStartDate = jobStartDate;
 		this.jobFinishDate = jobFinishDate;
-		user.getUserPostings().add(this);
+		// user.getUserPostings().add(this);
 	}
 
-	public long getId() {
+	public Job(String title, LocalDate postingDate, double hourRate, String kindOfJob,
+			String description, LocalDate jobStartDate, LocalDate jobFinishDate) {
+		this.title = title;
+		this.postingDate = postingDate;
+		this.hourRate = hourRate;
+		this.kindOfJob = kindOfJob;
+		this.description = description;
+		this.jobStartDate = jobStartDate;
+		this.jobFinishDate = jobFinishDate;
+		// user.getUserPostings().add(this);
+	}
+
+	public Long getJobId() {
 		return jobId;
 	}
 
-	public void setId(long jobId) {
+	public void setJobId(Long jobId) {
 		this.jobId = jobId;
 	}
 
@@ -89,8 +101,8 @@ public class Job {
 		return user;
 	}
 
-	public void setUser(User poster) {
-		this.user = poster;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getTitle() {

@@ -2,6 +2,7 @@ package com.shifty.app.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shifty.app.model.Job;
 import com.shifty.app.model.JobRepository;
 
+import com.shifty.app.model.User;
+import com.shifty.app.model.UserRepository;
+
+import com.shifty.app.requests.JobPostingRequest;
+
 @CrossOrigin(origins = "hhtp://localhost:8081")
 @RestController
 @RequestMapping("/api")
@@ -21,6 +27,9 @@ public class JobController {
 
 	@Autowired
 	private JobRepository jobRepo;
+
+	@Autowired
+	private UserRepository userRepo;
 
 	// GET ALL JOBS
 	@GetMapping("/jobs")
@@ -39,11 +48,15 @@ public class JobController {
 
 	// CREATE A JOB
 	@PostMapping("/jobs")
-	public ResponseEntity<Job> createJob(@RequestBody Job job) {
+	public ResponseEntity<Job> createJob(@RequestBody JobPostingRequest jobPosting) {
 		try {
-			Job newJob = new Job(job.getUser(),
-					job.getTitle(), job.getPostingDate(), job.getHourRate(),
-					job.getKindOfJob(), job.getDescription(), job.getJobStartDate(), job.getJobFinishDate());
+			Optional<User> user = userRepo.findByUserId(jobPosting.getUserId());
+			System.out.println(user);
+			Job newJob = new Job(user.get(),
+					jobPosting.getJob().getTitle(), jobPosting.getJob().getPostingDate(),
+					jobPosting.getJob().getHourRate(),
+					jobPosting.getJob().getKindOfJob(), jobPosting.getJob().getDescription(),
+					jobPosting.getJob().getJobStartDate(), jobPosting.getJob().getJobFinishDate());
 			jobRepo.save(newJob);
 			return new ResponseEntity<>(newJob, HttpStatus.CREATED);
 		} catch (Exception e) {
