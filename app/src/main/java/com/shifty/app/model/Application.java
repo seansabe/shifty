@@ -1,11 +1,7 @@
 package com.shifty.app.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,63 +18,58 @@ public class Application {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long applicationId;
+    private long applicationId;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "job_id", nullable = false)
     @JsonIgnore
     private Job job;
 
-    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
-    private Set<UserApplication> userApplications = new HashSet<>();
+    private User user;
 
     @Column(name = "status")
     private String status;
-
-    public static String APPLIED = "Applied";
-    public static String ASSIGNED = "Assigned";
-    public static String CANCELED = "Canceled";
 
     // GETTERS, SETTERS, CONSTRUCTORS
     public long getApplicationId() {
         return applicationId;
     }
 
-    public Job getaJob() {
+    public Job getJob() {
         return job;
-    }
-
-    public Set<UserApplication> getUserApplications() {
-        return userApplications;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public void setJob(Job job) {
-        this.job = job;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserApplications(Set<UserApplication> userApplications) {
-        this.userApplications = userApplications;
+    public void setJob(Job job) {
+        this.job = job;
     }
 
     public void setStatus(String status) {
         this.status = status;
     }
 
-    public Application(Job job, String status) {
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Application(Job job, User user, String status) {
         this.job = job;
+        this.user = user;
         this.status = status;
+        // job.getJobApplications().add(this);
+        // user.getUserApplications().add(this);
     }
 
     public Application() {
-    }
-
-    public void addUserApplication(UserApplication userApplication) {
-        this.userApplications.add(userApplication);
-        userApplication.setApplication(this);
     }
 }

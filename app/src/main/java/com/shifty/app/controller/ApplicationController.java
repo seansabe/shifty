@@ -19,10 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shifty.app.model.Application;
 import com.shifty.app.model.ApplicationRepository;
+import com.shifty.app.model.Job;
+import com.shifty.app.model.JobRepository;
 import com.shifty.app.model.User;
-import com.shifty.app.model.UserApplication;
-import com.shifty.app.model.UserApplicationRepository;
 import com.shifty.app.model.UserRepository;
+import com.shifty.app.requests.ApplicationRequest;
 
 @CrossOrigin(origins = "hhtp://localhost:8081")
 @RestController
@@ -33,33 +34,12 @@ public class ApplicationController {
     private ApplicationRepository appRepo;
 
     @Autowired
-    private UserApplicationRepository userAppRepo;
+    private JobRepository jobRepo;
 
     @Autowired
     private UserRepository userRepo;
 
-    @GetMapping("/applications/{applicationId}/users")
-    public ResponseEntity<List<User>> getUsersByApplicationId(@PathVariable("applicationId") Long applicationId) {
-        try {
-            Optional<Application> application = appRepo.findById(applicationId);
-            if (application.isPresent()) {
-                List<UserApplication> userApplications = userAppRepo.findByApplication(application);
-                if (!userApplications.isEmpty()) {
-                    List<User> users = new ArrayList<>();
-                    for (UserApplication userApplication : userApplications) {
-                        User user = userApplication.getUser();
-                        users.add(user);
-                    }
-                    return new ResponseEntity<>(users, HttpStatus.OK);
-                }
-            }
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            System.out.print(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
+    // GET ALL APPLICATIONS
     @GetMapping("/applications")
     public ResponseEntity<List<Application>> getAllApplications() {
         try {
@@ -74,34 +54,25 @@ public class ApplicationController {
         }
     }
 
-    @GetMapping(value = "/applications/{id}")
-    public ResponseEntity<Application> getApplicationById(@PathVariable("id") Long applicationId) {
-        try {
-            Optional<Application> application = appRepo.findById(applicationId);
-            if (application.isPresent()) {
-                return new ResponseEntity<>(application.get(), HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
+    // CREATE AN APPLICATION FOR A JOB
     @PostMapping("/applications")
-    public ResponseEntity<Application> createApplication(@RequestBody Application application) {
+    public ResponseEntity<Application> createApplication(@RequestBody ApplicationRequest application) {
         try {
-            Application newApplication = new Application(application.getaJob(), application.getStatus());
-            appRepo.save(newApplication);
+            Optional<Job> job = jobRepo.findByJobId(application.getJobId());
+            Optional<User> user = userRepo.findByUserId(application.getUserId());
+            Application newApplication = appRepo.save(new Application(job.get(), user.get(),
+                    application.getStatus()));
             return new ResponseEntity<>(newApplication, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    // UPDATE AN APPLICATION
     @PutMapping("/applications/{id}")
-    public ResponseEntity<Application> updateApplication(@PathVariable Long id,
+    public ResponseEntity<Application> updateApplication(@PathVariable Long applicationId,
             @RequestBody Application updatedApplication) {
-        Optional<Application> application = appRepo.findById(id);
+        Optional<Application> application = appRepo.findByApplicationId(applicationId);
         if (application.isPresent()) {
             Application existingApplication = application.get();
             existingApplication.setStatus(updatedApplication.getStatus());
@@ -112,9 +83,10 @@ public class ApplicationController {
         }
     }
 
+    // DELETE AN APPLICATION
     @DeleteMapping("/applications/{id}")
     public ResponseEntity<Void> deleteApplication(@PathVariable("id") Long applicationId) {
-        Optional<Application> application = appRepo.findById(applicationId);
+        Optional<Application> application = appRepo.findByApplicationId(applicationId);
         if (application.isPresent()) {
             appRepo.delete(application.get());
             return ResponseEntity.noContent().build();
