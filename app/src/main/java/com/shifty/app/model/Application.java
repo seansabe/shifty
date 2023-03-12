@@ -66,10 +66,12 @@ public class Application {
         this.user = user;
     }
 
-    public Application(Job job, String status) {
+    public Application(Job job, User user, String status) {
         this.job = job;
+        this.user = user;
         this.status = status;
         job.getJobApplications().add(this);
+        user.getUserApplications().add(this);
     }
 
     public Application() {

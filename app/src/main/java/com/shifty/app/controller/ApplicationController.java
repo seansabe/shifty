@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shifty.app.model.Application;
 import com.shifty.app.model.ApplicationRepository;
+import com.shifty.app.model.Job;
+import com.shifty.app.model.JobRepository;
+import com.shifty.app.model.User;
+import com.shifty.app.model.UserRepository;
 
 @CrossOrigin(origins = "hhtp://localhost:8081")
 @RestController
@@ -27,6 +31,12 @@ public class ApplicationController {
 
     @Autowired
     private ApplicationRepository appRepo;
+
+    @Autowired
+    private JobRepository jobRepo;
+
+    @Autowired
+    private UserRepository userRepo;
 
     // GET ALL APPLICATIONS
     @GetMapping("/applications")
@@ -47,14 +57,17 @@ public class ApplicationController {
     @PostMapping("/applications")
     public ResponseEntity<Application> createApplication(@RequestBody Application application) {
         try {
-            Application newApplication = new Application(application.getJob(), application.getStatus());
-            appRepo.save(newApplication);
+            Optional<Job> job = jobRepo.findById(application.getJob().getId());
+            Optional<User> user = userRepo.findById(application.getUser().getUserId());
+            Application newApplication = appRepo.save(new Application(job.get(), user.get(),
+                    application.getStatus()));
             return new ResponseEntity<>(newApplication, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    // UPDATE AN APPLICATION
     @PutMapping("/applications/{id}")
     public ResponseEntity<Application> updateApplication(@PathVariable Long id,
             @RequestBody Application updatedApplication) {
@@ -69,6 +82,7 @@ public class ApplicationController {
         }
     }
 
+    // DELETE AN APPLICATION
     @DeleteMapping("/applications/{id}")
     public ResponseEntity<Void> deleteApplication(@PathVariable("id") Long applicationId) {
         Optional<Application> application = appRepo.findById(applicationId);

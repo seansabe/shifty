@@ -47,7 +47,7 @@ public class AppApplication {
 			jobRepo.save(job2);
 
 			// CREATE JOB APPLICATION EXAMPLE
-			Application app1 = new Application(job1, Application.APPLIED);
+			Application app1 = new Application(job1, buster, Application.APPLIED);
 			job1.addApplication(app1);
 			buster.addApplication(app1);
 			appRepo.save(app1);

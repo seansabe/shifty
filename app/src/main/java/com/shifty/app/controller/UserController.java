@@ -40,16 +40,14 @@ public class UserController {
 
 	// GET ALL APPLICATIONS AN USER HAS SUBMITTED
 	@GetMapping("/users/{userId}/applications")
-	public ResponseEntity<List<Application>> getApplicationByUserId(@PathVariable("userId") Long userId) {
+	public ResponseEntity<List<Application>> getApplicationByUserId(@PathVariable("userId") long userId) {
 		try {
-			Optional<User> userData = userRepo.findById(userId);
-			List<Application> applications = new ArrayList<>();
-			if (userData.isPresent()) {
-				User user = userData.get();
-				for (Application app : user.getUserApplications()) {
-					applications.add(app);
+			Optional<User> user = userRepo.findById(userId);
+			if (user.isPresent()) {
+				List<Application> apps = appRepo.findByUser(user);
+				if (!apps.isEmpty()) {
+					return new ResponseEntity<>(apps, HttpStatus.OK);
 				}
-				return new ResponseEntity<>(applications, HttpStatus.OK);
 			}
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
