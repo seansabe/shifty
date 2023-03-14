@@ -70,7 +70,7 @@ public class ApplicationController {
 
     // UPDATE AN APPLICATION
     @PutMapping("/applications/{id}")
-    public ResponseEntity<Application> updateApplication(@PathVariable Long applicationId,
+    public ResponseEntity<Application> updateApplication(@PathVariable("id") Long applicationId,
             @RequestBody Application updatedApplication) {
         Optional<Application> application = appRepo.findByApplicationId(applicationId);
         if (application.isPresent()) {
