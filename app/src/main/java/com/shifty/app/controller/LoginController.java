@@ -25,19 +25,27 @@ public class LoginController {
 
     // USER LOGIN
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginRequest loginRequest) {
+    public ResponseEntity<User> login(@RequestBody UserLoginRequest loginRequest) {
+        if (loginRequest == null || loginRequest.getUserEmail() == null || loginRequest.getPassword() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         try {
-            Optional<User> userData = userRepo.findById(loginRequest.getUserId());
+            Optional<User> userData = userRepo.findByEmail(loginRequest.getUserEmail());
             if (userData.isPresent()) {
                 String password = userData.get().getPassword();
                 if (password.equals(loginRequest.getPassword())) {
                     return new ResponseEntity<>(userData.get(), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 }
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            } else {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
         } catch (Exception e) {
+            // log the exception
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return null;
     }
 }
