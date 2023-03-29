@@ -1,16 +1,16 @@
 package com.shifty.app.requests;
 
 public class UserLoginRequest {
-    private Long userId;
+    private String email;
 
     private String password;
 
-    public Long getUserId() {
-        return userId;
+    public String getUserEmail() {
+        return email;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -18,6 +18,11 @@ public class UserLoginRequest {
     }
 
     public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UserLoginRequest(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 }
