@@ -20,12 +20,12 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long applicationId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "job_id", nullable = false)
     @JsonIgnore
     private Job job;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
@@ -38,7 +38,7 @@ public class Application {
         return applicationId;
     }
 
-    public Job getJob() {
+    public Job getJobListing() {
         return job;
     }
 
@@ -46,7 +46,7 @@ public class Application {
         return status;
     }
 
-    public User getUser() {
+    public User getUserBuster() {
         return user;
     }
 

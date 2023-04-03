@@ -44,11 +44,11 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Application> applications = new HashSet<>();
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Job> jobs = new HashSet<>();
 
@@ -134,7 +134,7 @@ public class User {
 		this.password = password;
 	}
 
-	public Set<Application> getUserApplications() {
+	public Set<Application> getApplications() {
 		return applications;
 	}
 
@@ -152,7 +152,7 @@ public class User {
 		job.setUser(this);
 	}
 
-	public Set<Job> getUserJobs() {
+	public Set<Job> getJobs() {
 		return jobs;
 	}
 
