@@ -123,26 +123,26 @@ public class UserController {
 		}
 	}
 
-    // UPDATE USER
-    @PutMapping("/users/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Long userId,
-            @RequestBody User updatedUser) {
-        Optional<User> user = userRepo.findByUserId(userId);
-        if (user.isPresent()) {
-            User existingUser = user.get();
-            existingUser.setFirstName(updatedUser.getFirstName());
-            existingUser.setLastName(updatedUser.getLastName());
-            existingUser.setAddress(updatedUser.getAddress());
-            existingUser.setPhone(updatedUser.getPhone());
-            existingUser.setEmail(updatedUser.getEmail());
-            existingUser.setRole(updatedUser.getRole());
-            existingUser.setPassword(updatedUser.getPassword());
-            userRepo.save(existingUser);
-            return ResponseEntity.ok().build();
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+	// UPDATE USER
+	@PutMapping("/users/{id}")
+	public ResponseEntity<User> updateUser(@PathVariable("id") Long userId,
+			@RequestBody User updatedUser) {
+		Optional<User> user = userRepo.findByUserId(userId);
+		if (user.isPresent()) {
+			User existingUser = user.get();
+			existingUser.setFirstName(updatedUser.getFirstName());
+			existingUser.setLastName(updatedUser.getLastName());
+			existingUser.setAddress(updatedUser.getAddress());
+			existingUser.setPhone(updatedUser.getPhone());
+			existingUser.setEmail(updatedUser.getEmail());
+			existingUser.setRole(updatedUser.getRole());
+			existingUser.setPassword(updatedUser.getPassword());
+			userRepo.save(existingUser);
+			return ResponseEntity.ok().build();
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 
 	// DELETE ALL USERS
 	@DeleteMapping("/users")

@@ -56,7 +56,7 @@ public class Job {
 	private User user;
 
 	@OneToMany(mappedBy = "job", // in Application class field must be defined private Job job;
-			cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+			cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Application> applications = new HashSet<>();
 
@@ -97,7 +97,7 @@ public class Job {
 		this.jobId = jobId;
 	}
 
-	public User getUser() {
+	public User getUserPoster() {
 		return user;
 	}
 
@@ -166,7 +166,7 @@ public class Job {
 		application.setJob(this);
 	}
 
-	public Set<Application> getJobApplications() {
+	public Set<Application> getApplications() {
 		return applications;
 	}
 

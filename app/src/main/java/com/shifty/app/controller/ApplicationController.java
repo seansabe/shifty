@@ -25,7 +25,7 @@ import com.shifty.app.model.User;
 import com.shifty.app.model.UserRepository;
 import com.shifty.app.requests.ApplicationRequest;
 
-@CrossOrigin(origins = "hhtp://localhost:8081")
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class ApplicationController {
@@ -45,12 +45,25 @@ public class ApplicationController {
         try {
             List<Application> applications = new ArrayList<>();
             appRepo.findAll().forEach(applications::add);
+            System.out.println(applications.size());
             if (applications.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(applications, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // GET APPLICATION BY ID
+    @GetMapping("/applications/{id}")
+    public ResponseEntity<Application> getApplicationById(@PathVariable(value = "id") Long applicationId) {
+        Optional<Application> application = appRepo.findByApplicationId(applicationId);
+
+        if (application.isPresent()) {
+            return new ResponseEntity<>(application.get(), HttpStatus.OK);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 

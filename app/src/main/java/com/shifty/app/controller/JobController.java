@@ -20,7 +20,7 @@ import com.shifty.app.model.UserRepository;
 
 import com.shifty.app.requests.JobPostingRequest;
 
-@CrossOrigin(origins = "hhtp://localhost:8081")
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class JobController {
