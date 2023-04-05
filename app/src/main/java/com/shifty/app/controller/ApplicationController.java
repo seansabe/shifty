@@ -107,4 +107,20 @@ public class ApplicationController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+ // GET APPLICATIONS BY JOB ID
+    @GetMapping("/applications/job/{jobId}")
+    public ResponseEntity<List<Application>> getApplicationsByJobId(@PathVariable(value = "jobId") Long jobId) {
+        try {
+            Optional<Job> job = jobRepo.findByJobId(jobId);
+            List<Application> applications = appRepo.findByJob(job.get());
+            if (applications.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(applications, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
