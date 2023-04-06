@@ -115,7 +115,7 @@ public class UserController {
 	public ResponseEntity<User> createUser(@RequestBody User user) {
 		try {
 			User newUser = new User(user.getFirstName(), user.getLastName(), user.getAddress(), user.getPhone(),
-					user.getEmail(), user.getRole(), user.getPassword());
+					user.getEmail(), user.getPassword());
 			userRepo.save(newUser);
 			return new ResponseEntity<>(newUser, HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -135,10 +135,9 @@ public class UserController {
 			existingUser.setAddress(updatedUser.getAddress());
 			existingUser.setPhone(updatedUser.getPhone());
 			existingUser.setEmail(updatedUser.getEmail());
-			existingUser.setRole(updatedUser.getRole());
 			existingUser.setPassword(updatedUser.getPassword());
 			userRepo.save(existingUser);
-			return ResponseEntity.ok().build();
+			return new ResponseEntity<>(existingUser, HttpStatus.CREATED);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
