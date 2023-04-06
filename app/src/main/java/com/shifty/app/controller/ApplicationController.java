@@ -97,18 +97,17 @@ public class ApplicationController {
     }
 
     // DELETE AN APPLICATION
-    @DeleteMapping("/applications/{id}")
-    public ResponseEntity<Void> deleteApplication(@PathVariable("id") Long applicationId) {
-        Optional<Application> application = appRepo.findByApplicationId(applicationId);
-        if (application.isPresent()) {
-            appRepo.delete(application.get());
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    
- // GET APPLICATIONS BY JOB ID
+	@DeleteMapping("/applications/{id}")
+	public ResponseEntity<HttpStatus> deleteApplication(@PathVariable("id") long id) {
+		try {
+			appRepo.deleteById(id);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+    // GET APPLICATIONS BY JOB ID
     @GetMapping("/applications/job/{jobId}")
     public ResponseEntity<List<Application>> getApplicationsByJobId(@PathVariable(value = "jobId") Long jobId) {
         try {
