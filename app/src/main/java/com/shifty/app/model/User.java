@@ -41,11 +41,11 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user",  fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@JsonIgnore
 	private Set<Application> applications = new HashSet<>();
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Job> jobs = new HashSet<>();
 

@@ -21,12 +21,12 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long applicationId;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "job_id", nullable = false)
     @JsonIgnore
     private Job job;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;

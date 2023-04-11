@@ -56,7 +56,7 @@ public class Job {
 	private User user;
 
 	@OneToMany(mappedBy = "job", // in Application class field must be defined private Job job;
-			cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+			cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Application> applications = new HashSet<>();
 
