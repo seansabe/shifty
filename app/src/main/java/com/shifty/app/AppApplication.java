@@ -27,12 +27,15 @@ public class AppApplication {
 
 			// CREATE USER EXAMPLE
 			User poster = new User("Sergio", "Salazar", "Surrey, BC", "1365125551",
-					"sergio@outlook.com", User.POSTER, "1234");
+					"sergio@outlook.com", "1234");
 			User buster = new User("Neslihan", "Turpcu", "Burnaby, BC", "1234567891", "neslihan@gmail.com",
-					User.BUSTER, "1234");
+					 "1234");
+			User buster2 = new User("Neslihan", "Turpcu", "Burnaby, BC", "1234567891", "1@",
+					 "1");
 
 			userRepo.save(poster);
 			userRepo.save(buster);
+			userRepo.save(buster2);
 
 			// CREATE JOB LISTING EXAMPLE
 			Job job1 = new Job(poster, "Cleaner wanted ASAP!", LocalDate.of(2023, 2, 24),

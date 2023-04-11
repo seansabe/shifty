@@ -38,9 +38,6 @@ public class User {
 	@Column(name = "email")
 	private String email;
 
-	@Column(name = "role")
-	private String role;
-
 	@Column(name = "password")
 	private String password;
 
@@ -52,21 +49,16 @@ public class User {
 	@JsonIgnore
 	private Set<Job> jobs = new HashSet<>();
 
-	// ROLE STATIC VARIABLES
-	public static String POSTER = "Poster";
-	public static String BUSTER = "Buster";
-
 	public User() {
 	}
 
-	public User(String firstName, String lastName, String address, String phone, String email, String role,
+	public User(String firstName, String lastName, String address, String phone, String email,
 			String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
 		this.phone = phone;
 		this.email = email;
-		this.role = role;
 		this.password = password;
 	}
 
@@ -116,14 +108,6 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
 	}
 
 	public String getPassword() {
